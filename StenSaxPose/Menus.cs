@@ -10,12 +10,10 @@ namespace StenSaxPose
     public class Player
     {
         public int ID;
-        public string Name;
         public int Score;
 
-        public Player(string name, int id)
+        public Player(int id)
         {
-            Name = name;
             ID = id;
         }
     }
@@ -102,13 +100,6 @@ namespace StenSaxPose
         static void CreateLocalGame()
         {
             
-
-            for (int i = 0; i < localPlayerNum; i++)
-            {
-                
-            }
-
-            activeLocalGame = new LocalGamePlay(localPlayerNum, );
             
             if (!File.Exists(path + "savefiles.sspl"))
             {
@@ -138,7 +129,7 @@ namespace StenSaxPose
                 }
             }
 
-            saveData += c + 1;
+            saveData += (char)c;
 
             saveData += cLocalCharID;
 
@@ -151,12 +142,34 @@ namespace StenSaxPose
             Random r = new Random();
             saveData += (char)r.Next(0, localPlayerNum);
             byte[] stream = Encoding.ASCII.GetBytes(saveData);
-            f.Write(stream, 0, 14+localPlayerNum);
+            f.Write(stream, 0, 14 + localPlayerNum);
+            f.Close();
+
+            Player[] tpls = new Player[localPlayerNum];
+
+            for (int i = 0; i < localPlayerNum; i++)
+            {
+                tpls[i] = new Player(i);
+            }
+
+            activeLocalGame = new LocalGamePlay(localPlayerNum, tpls, localPlayerScoreLimit, c);
         }
 
         static void LocalGameFunc()
         {
-            
+            if (activeLocalGame == null)
+            {
+                CurrentMenu = Menus.MainMenu;
+                nextAdd += "No active game; please load one or create a new one";
+                return;
+            }
+
+            DrawHUD();
+        }
+
+        static void DrawHUD()
+        {
+
         }
 
         static void WriteWelcomeMessage()
