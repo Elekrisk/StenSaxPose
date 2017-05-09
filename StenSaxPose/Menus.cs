@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -20,7 +19,7 @@ namespace StenSaxPose
         }
     }
 
-    enum Menus { MainMenu, LocalChoose, LocalLoad, LocalSave, LocalSetup, LocalPlayerNum, LocalPlayerScore, OnlineSetup1, InGame, Music }
+    enum Menus { MainMenu, LocalChoose, LocalLoad, LocalSave, LocalSetup, LocalPlayerNum, LocalPlayerScore, OnlineSetup1, InGame }
 
     class Program
     {
@@ -29,19 +28,11 @@ namespace StenSaxPose
         static string nextAdd = "";
         static int localPlayerNum = 2;
         static int localPlayerScoreLimit = 3;
-
-        static Music backgroundMusic;
-
-
-
+        
+        
 
         static void Main(string[] args)
         {
-            //Console.WriteLine(Directory.GetCurrentDirectory());
-
-            backgroundMusic = new Music("test.wav");
-            backgroundMusic.Play();
-
             WriteWelcomeMessage();
             while (true)
             {
@@ -52,8 +43,7 @@ namespace StenSaxPose
                         Console.WriteLine("--- Main Menu ---");
                         Console.WriteLine("1. Play Local Game");
                         Console.WriteLine("2. Play Online Game");
-                        Console.WriteLine("3. Music Controller");
-                        Console.WriteLine("4. Quit");
+                        Console.WriteLine("3. Quit");
                         Console.Write(">");
                         DoCommand(Console.ReadLine());
                         break;
@@ -82,11 +72,6 @@ namespace StenSaxPose
                         Console.WriteLine("2. Load a local game");
                         Console.WriteLine("3. Back");
                         Console.Write(">");
-                        DoCommand(Console.ReadLine());
-                        break;
-                    case Menus.Music:
-                        Console.WriteLine("1. Start/Stop");
-                        Console.WriteLine("2. Back");
                         DoCommand(Console.ReadLine());
                         break;
                     default:
@@ -154,9 +139,6 @@ namespace StenSaxPose
                             CurrentMenu = Menus.OnlineSetup1;
                             break;
                         case "3":
-                            CurrentMenu = Menus.Music;
-                            break;
-                        case "4":
                             Environment.Exit(0);
                             break;
                         default:
@@ -198,23 +180,6 @@ namespace StenSaxPose
                             CurrentMenu = Menus.LocalLoad;
                             break;
                         case "3":
-                            CurrentMenu = Menus.MainMenu;
-                            break;
-                        default:
-                            break;
-                    }
-                    break;
-                case Menus.Music:
-                    switch (s)
-                    {
-                        case "1":
-                            if (backgroundMusic.Playing())
-                                backgroundMusic.Stop();
-                            else
-                                backgroundMusic.Play();
-
-                            break;
-                        case "2":
                             CurrentMenu = Menus.MainMenu;
                             break;
                         default:
