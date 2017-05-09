@@ -10,6 +10,8 @@ namespace StenSaxPose
     {
         static void Main(string[] args)
         {
+            System.Console.WriteLine("Hello and welcome to Sten Sax Påse! :)");
+            System.Console.ReadKey();
         }
     }
 }
