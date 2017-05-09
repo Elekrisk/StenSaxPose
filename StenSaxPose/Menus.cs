@@ -18,7 +18,7 @@ namespace StenSaxPose
         }
     }
 
-    enum Menus { MainMenu, LocalChoose, LocalLoad, LocalSave, LocalSetup, LocalPlayerNum, LocalPlayerScore, OnlineSetup1, InLocalGame, InOnlineGame, Music }
+    enum Menus { MainMenu, LocalChoose, LocalLoad, LocalSave, LocalGameName, LocalSetup, LocalPlayerNum, LocalPlayerScore, OnlineSetup1, InLocalGame, InOnlineGame, Music }
 
     class Program
     {
@@ -256,10 +256,13 @@ namespace StenSaxPose
                             CurrentMenu = Menus.LocalPlayerScore;
                             break;
                         case "3":
+                            CurrentMenu = Menus.LocalGameName;
+                            break;
+                        case "4":
                             CreateLocalGame();
                             CurrentMenu = Menus.InLocalGame;
                             break;
-                        case "4":
+                        case "5":
                             CurrentMenu = Menus.MainMenu;
                             break;
                         default:
