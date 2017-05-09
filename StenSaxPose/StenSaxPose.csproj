@@ -45,6 +45,7 @@
   <ItemGroup>
     <Compile Include="LocalGamePlay.cs" />
     <Compile Include="Menus.cs" />
+    <Compile Include="Music.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
