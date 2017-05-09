@@ -10,6 +10,8 @@ namespace StenSaxPose
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Hello!");
+            Console.Read();
         }
     }
 }
