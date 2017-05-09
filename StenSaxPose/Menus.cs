@@ -221,31 +221,83 @@ namespace StenSaxPose
                     players[i] = new LocalPlayer(f.ReadByte());
                 }
                 int playerTurn = f.ReadByte();
-                f.Close();
 
                 games.Add(new LocalGamePlay(playerNum, players, scoreLimit, id, name));
             }
+            f.Close();
 
             // Initializing variables for use in displaying the above list
             int listSize = 10;
             int page = 0;
 
             // Displaying the list
-            Console.WriteLine("--- Load Local Game ---");
-            for (int i = page * listSize; i < page * listSize + listSize; i++)
+            bool t = true;
+            while (t)
             {
-                if (i < games.Count)
+                Console.Clear();
+                Console.WriteLine("--- Load Local Game ---");
+                for (int i = page * listSize; i < page * listSize + listSize; i++)
                 {
-                    Console.WriteLine(games[i].localGameID + ". " + games[i].Name + " - " + games[i].playerNum + " players - score limit " + games[i].scoreLimit);
+                    if (i < games.Count)
+                    {
+                        Console.WriteLine(games[i].localGameID + ". " + games[i].Name + " - " + games[i].playerNum + " players - score limit " + games[i].scoreLimit);
+                    }
+                }
+                Console.WriteLine();
+                Console.WriteLine("a. Save game options");
+                Console.WriteLine("b. Back");
+                Console.Write(">");
+                string s = Console.ReadLine();
+
+                switch (s)
+                {
+                    case "a":
+                        Console.Clear();
+                        Console.WriteLine("1. Clear all saves");
+                        Console.WriteLine("2. Change page size");
+                        Console.Write(">");
+                        string s2 = Console.ReadLine();
+                        switch (s2)
+                        {
+                            case "1":
+                                File.Delete(savePath);
+                                CurrentMenu = Menus.LocalChoose;
+                                t = false;
+                                break;
+                            case "2":
+                                Console.Clear();
+                                Console.Write("Page size: ");
+                                string s3 = Console.ReadLine();
+                                int h2;
+                                if (int.TryParse(s3, out h2))
+                                {
+                                    listSize = h2;
+                                }
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    default:
+                        int h;
+                        if (int.TryParse(s, out h))
+                        {
+                            if (h >= page * listSize && h < page * listSize + listSize)
+                            {
+                                foreach (LocalGamePlay g in games)
+                                {
+                                    if (h == g.localGameID)
+                                    {
+                                        activeLocalGame = g;
+                                        CurrentMenu = Menus.InLocalGame;
+                                        t = false;
+                                    }
+                                }
+                            }
+                        }
+                        break;
                 }
             }
-
-            Console.WriteLine("a. Save game options");
-            Console.WriteLine("b. Back");
-            Console.Write(">");
-            string s = Console.ReadLine();
-
-            // Handling input (WIP)
             
         }
 
@@ -303,7 +355,7 @@ namespace StenSaxPose
             
             if (!File.Exists(savePath))
             {
-                File.Create(savePath);
+                File.Create(savePath).Close();
             }
             
             // Encoding data to a string
@@ -371,7 +423,13 @@ namespace StenSaxPose
 
             while (true)
             {
-                
+                Console.WriteLine("----- LOCAL GAME " + activeLocalGame.Name + " " + activeLocalGame.playerNum + " PLAYERS -----");
+                Console.WriteLine("PLAYER " + activeLocalGame.turn + 1 + "'S TURN");
+                Console.WriteLine("1. See scores");
+                Console.WriteLine("2. Play -ROCK-");
+                Console.WriteLine("3. Play -PAPER-");
+                Console.WriteLine("4. Play -SCICCORS-");
+                Console.WriteLine("5. Save and Quit");
             }
         }
 

@@ -13,3 +13,6 @@ D:\Programming\C#\GitHub\StenSaxPose\StenSaxPose\obj\Debug\StenSaxPose.pdb
 C:\Users\einar.persson\Source\Repos\StenSaxPose\StenSaxPose\bin\Debug\StenSaxPose.exe.config
 C:\Users\einar.persson\Source\Repos\StenSaxPose\StenSaxPose\obj\Debug\StenSaxPose.exe
 C:\Users\einar.persson\Source\Repos\StenSaxPose\StenSaxPose\obj\Debug\StenSaxPose.pdb
+C:\Users\einar.persson\Source\Repos\StenSaxPose\StenSaxPose\bin\Debug\StenSaxPose.exe
+C:\Users\einar.persson\Source\Repos\StenSaxPose\StenSaxPose\bin\Debug\StenSaxPose.pdb
+C:\Users\einar.persson\Source\Repos\StenSaxPose\StenSaxPose\obj\Debug\StenSaxPose.csprojResolveAssemblyReference.cache
