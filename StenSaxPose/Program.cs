@@ -20,7 +20,7 @@ namespace StenSaxPose
 
         static void WriteWelcomeMessage()
         {
-
+            
         }
     }
 }
