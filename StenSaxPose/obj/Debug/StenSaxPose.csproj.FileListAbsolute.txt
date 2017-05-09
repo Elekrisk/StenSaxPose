@@ -1,0 +1,1 @@
+D:\Programming\C#\GitHub\StenSaxPose\StenSaxPose\bin\Debug\StenSaxPose.exe.config
