@@ -24,5 +24,10 @@ namespace StenSaxPose
             score = new int[playerNum];
             turn = 0;
         }
+
+        public void Save()
+        {
+
+        }
     }
 }
