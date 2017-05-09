@@ -29,7 +29,7 @@ namespace StenSaxPose
         static string nextAdd = "";
         static int localPlayerNum = 2;
         static int localPlayerScoreLimit = 3;
-        static string cLocalCharID = "00000";
+        static string cLocalCharID = "";
 
         static LocalGamePlay activeLocalGame;
 
@@ -95,6 +95,15 @@ namespace StenSaxPose
                         Console.WriteLine("2. Back");
                         DoCommand(Console.ReadLine());
                         break;
+                    case Menus.LocalGameName:
+                        Console.Write("ASCII Name (10 char max): ");
+                        string s = Console.ReadLine();
+                        if (CheckAscii(s, out s))
+                        {
+                            cLocalCharID = s;
+                        }
+                        CurrentMenu = Menus.LocalSetup;
+                        break;
                     default:
                         break;
                 }
@@ -106,6 +115,35 @@ namespace StenSaxPose
                     Console.ReadKey();
                 }
             }
+        }
+
+        static bool CheckAscii(string s, out string so)
+        {
+            char[] c = new char[s.Length <= 10 ? s.Length : 10];
+            for (int i = 0; i < (s.Length <= 10 ? s.Length : 10); i++)
+            {
+                c[i] = s[0];
+            }
+
+            if (s.Length < 10)
+            {
+                for (int i = s.Length; i < 10; i++)
+                {
+                    s += " ";
+                }
+            }
+
+            so = s;
+
+            foreach (char ch in c)
+            {
+                if (ch >= 128)
+                {
+                    return false;
+                }
+            }
+
+            return true;
         }
 
         static void CreateLocalGame()
