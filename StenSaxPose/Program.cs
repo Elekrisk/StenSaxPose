@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace StenSaxPose
 {
-    enum Menus { MainMenu, LocalSetup, LocalPlayerNum, LocalPlayerScore, OnlineSetup1, InGame, Options }
+    enum Menus { MainMenu, LocalSetup, LocalPlayerNum, LocalPlayerScore, OnlineSetup1, InGame }
 
     class Program
     {
@@ -29,8 +29,7 @@ namespace StenSaxPose
                         Console.WriteLine("");
                         Console.WriteLine("1. Play Local Game");
                         Console.WriteLine("2. Play Online Game");
-                        Console.WriteLine("3. Options");
-                        Console.WriteLine("4. Quit");
+                        Console.WriteLine("3. Quit");
                         Console.Write(">");
                         DoCommand(Console.ReadLine());
                         break;
@@ -87,7 +86,6 @@ namespace StenSaxPose
                     case Menus.InGame:
                     case Menus.LocalSetup:
                     case Menus.OnlineSetup1:
-                    case Menus.Options:
                         CurrentMenu = Menus.MainMenu;
                         break;
                     default:
@@ -108,9 +106,6 @@ namespace StenSaxPose
                             CurrentMenu = Menus.OnlineSetup1;
                             break;
                         case "3":
-                            CurrentMenu = Menus.Options;
-                            break;
-                        case "4":
                             Environment.Exit(0);
                             break;
                         default:
@@ -128,6 +123,9 @@ namespace StenSaxPose
                         case "2":
                             CurrentMenu = Menus.LocalPlayerScore;
                             break;
+                        case "4":
+                            CurrentMenu = Menus.MainMenu;
+                            break;
                         default:
                             break;
                     }
@@ -135,6 +133,9 @@ namespace StenSaxPose
                     break;
                 case Menus.LocalPlayerNum:
                     int.TryParse(s, out localPlayerNum);
+                    break;
+                case Menus.LocalPlayerScore:
+                    int.TryParse(s, out localPlayerScoreLimit);
                     break;
                 default:
                     break;
