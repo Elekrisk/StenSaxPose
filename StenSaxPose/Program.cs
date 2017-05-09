@@ -68,7 +68,14 @@ namespace StenSaxPose
 
         static void WriteWelcomeMessage()
         {
-            Console.WriteLine("Welcome to Sten Sax Påse Online!");
+            Console.Write("  ______                      ______                ______                 \n" +
+                          " / _____) _                  / _____)              (_____ \\                \n" +
+                          "( (____ _| |_ _____ ____    ( (____  _____ _   _    _____) )__   ___ _____ \n" +
+                          " \\____ (_   _) ___ |  _ \\    \\____ \\(____ ( \\ / )  |  ____/ _ \\ /___) ___ |\n" +
+                          " _____) )| |_| ____| | | |   _____) ) ___ |) X (   | |   | |_| |___ | ____|\n" +
+                          "(______/  \\__)_____)_| |_|  (______/\\_____(_/ \\_)  |_|    \\___/(___/|_____)\n" +
+                          "===========================================================================\n");
+
             Console.WriteLine("If you need help with anything, just write '!h' for contextual help!");
             Console.WriteLine("Press any button to continue.");
             Console.ReadKey();
