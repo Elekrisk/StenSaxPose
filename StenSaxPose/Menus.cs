@@ -6,7 +6,20 @@ using System.Threading.Tasks;
 
 namespace StenSaxPose
 {
-    enum Menus { MainMenu, LocalSetup, LocalPlayerNum, LocalPlayerScore, OnlineSetup1, InGame }
+    public class Player
+    {
+        public int ID;
+        public string Name;
+        public int Score;
+
+        public Player(string name, int id)
+        {
+            Name = name;
+            ID = id;
+        }
+    }
+
+    enum Menus { MainMenu, LocalChoose, LocalLoad, LocalSave, LocalSetup, LocalPlayerNum, LocalPlayerScore, OnlineSetup1, InGame }
 
     class Program
     {
@@ -15,6 +28,8 @@ namespace StenSaxPose
         static string nextAdd = "";
         static int localPlayerNum = 2;
         static int localPlayerScoreLimit = 3;
+        
+        
 
         static void Main(string[] args)
         {
@@ -26,7 +41,6 @@ namespace StenSaxPose
                 {
                     case Menus.MainMenu:
                         Console.WriteLine("--- Main Menu ---");
-                        Console.WriteLine("");
                         Console.WriteLine("1. Play Local Game");
                         Console.WriteLine("2. Play Online Game");
                         Console.WriteLine("3. Quit");
@@ -34,7 +48,7 @@ namespace StenSaxPose
                         DoCommand(Console.ReadLine());
                         break;
                     case Menus.LocalSetup:
-                        Console.WriteLine("--- Local Game ---");
+                        Console.WriteLine("--- New Local Game ---");
                         Console.WriteLine("1. Number of players: " + localPlayerNum);
                         Console.WriteLine("2. Score limit: " + localPlayerScoreLimit);
                         Console.WriteLine("3. Start Game");
@@ -51,6 +65,14 @@ namespace StenSaxPose
                         Console.Write("Score Limit: ");
                         DoCommand(Console.ReadLine());
                         CurrentMenu = Menus.LocalSetup;
+                        break;
+                    case Menus.LocalChoose:
+                        Console.WriteLine("--- Local Game ---");
+                        Console.WriteLine("1. Create new local game");
+                        Console.WriteLine("2. Load a local game");
+                        Console.WriteLine("3. Back");
+                        Console.Write(">");
+                        DoCommand(Console.ReadLine());
                         break;
                     default:
                         break;
@@ -84,9 +106,13 @@ namespace StenSaxPose
                 switch (CurrentMenu)
                 {
                     case Menus.InGame:
-                    case Menus.LocalSetup:
+                    case Menus.LocalChoose:
                     case Menus.OnlineSetup1:
                         CurrentMenu = Menus.MainMenu;
+                        break;
+                    case Menus.LocalLoad:
+                    case Menus.LocalSetup:
+                        CurrentMenu = Menus.LocalChoose;
                         break;
                     default:
                         break;
@@ -100,7 +126,7 @@ namespace StenSaxPose
                     switch (s)
                     {
                         case "1":
-                            CurrentMenu = Menus.LocalSetup;
+                            CurrentMenu = Menus.LocalChoose;
                             break;
                         case "2":
                             CurrentMenu = Menus.OnlineSetup1;
@@ -136,6 +162,22 @@ namespace StenSaxPose
                     break;
                 case Menus.LocalPlayerScore:
                     int.TryParse(s, out localPlayerScoreLimit);
+                    break;
+                case Menus.LocalChoose:
+                    switch (s)
+                    {
+                        case "1":
+                            CurrentMenu = Menus.LocalSetup;
+                            break;
+                        case "2":
+                            CurrentMenu = Menus.LocalLoad;
+                            break;
+                        case "3":
+                            CurrentMenu = Menus.MainMenu;
+                            break;
+                        default:
+                            break;
+                    }
                     break;
                 default:
                     break;
