@@ -1,6 +1,7 @@
 D:\Programming\C#\GitHub\StenSaxPose\StenSaxPose\bin\Debug\StenSaxPose.exe.config
-D:\Programming\C#\GitHub\StenSaxPose\StenSaxPose\bin\Debug\StenSaxPose.exe
-D:\Programming\C#\GitHub\StenSaxPose\StenSaxPose\bin\Debug\StenSaxPose.pdb
-D:\Programming\C#\GitHub\StenSaxPose\StenSaxPose\obj\Debug\StenSaxPose.csprojResolveAssemblyReference.cache
-D:\Programming\C#\GitHub\StenSaxPose\StenSaxPose\obj\Debug\StenSaxPose.exe
-D:\Programming\C#\GitHub\StenSaxPose\StenSaxPose\obj\Debug\StenSaxPose.pdb
+C:\Users\einar\Source\Repos\StenSaxPose\StenSaxPose\bin\Debug\StenSaxPose.exe.config
+C:\Users\einar\Source\Repos\StenSaxPose\StenSaxPose\bin\Debug\StenSaxPose.exe
+C:\Users\einar\Source\Repos\StenSaxPose\StenSaxPose\bin\Debug\StenSaxPose.pdb
+C:\Users\einar\Source\Repos\StenSaxPose\StenSaxPose\obj\Debug\StenSaxPose.csprojResolveAssemblyReference.cache
+C:\Users\einar\Source\Repos\StenSaxPose\StenSaxPose\obj\Debug\StenSaxPose.exe
+C:\Users\einar\Source\Repos\StenSaxPose\StenSaxPose\obj\Debug\StenSaxPose.pdb
