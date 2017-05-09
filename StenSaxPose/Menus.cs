@@ -7,44 +7,93 @@ using System.IO;
 
 namespace StenSaxPose
 {
-    public class Player
+    /// <summary>
+    /// The class for a locak player, game specific
+    /// </summary>
+    public class LocalPlayer
     {
+        /// <summary>
+        /// The ID of the local player
+        /// </summary>
         public int ID;
+        /// <summary>
+        /// The score of the player
+        /// </summary>
         public int Score;
 
-        public Player(int id)
+        /// <summary>
+        /// Creates a new local player with the specified ID
+        /// </summary>
+        /// <param name="id">The ID of the local player</param>
+        public LocalPlayer(int id)
         {
             ID = id;
         }
     }
 
+    /// <summary>
+    /// Menu enum
+    /// </summary>
     enum Menus { MainMenu, LocalChoose, LocalLoad, LocalSave, LocalGameName, LocalSetup, LocalPlayerNum, LocalPlayerScore, OnlineSetup1, InLocalGame, InOnlineGame, Music }
 
+    /// <summary>
+    /// Main Program, contains the bulk of the game
+    /// </summary>
     class Program
     {
+        /// <summary>
+        /// The path to the .exe at runtime
+        /// </summary>
         static string path;
-        static int localGameID;
+        /// <summary>
+        /// The current menu, or the menu to be shown next redraw
+        /// </summary>
         static Menus CurrentMenu = Menus.MainMenu;
 
+        /// <summary>
+        /// Extra information to add on the next redraw
+        /// </summary>
         static string nextAdd = "";
+        /// <summary>
+        /// Number of players in created local games
+        /// </summary>
         static int localPlayerNum = 2;
+        /// <summary>
+        /// Score limit of created local games
+        /// </summary>
         static int localPlayerScoreLimit = 3;
+        /// <summary>
+        /// NAme of created local games
+        /// </summary>
         static string cLocalCharID = "";
 
+        /// <summary>
+        /// The currently playing local game, if any
+        /// </summary>
         static LocalGamePlay activeLocalGame;
 
+        /// <summary>
+        /// The background music. 10/10
+        /// </summary>
         static Music backgroundMusic;
         
         
-
+        /// <summary>
+        /// Entry point of the program
+        /// </summary>
+        /// <param name="args">I have no idea what this is</param>
         static void Main(string[] args)
         {
+            // Assigning variables
             backgroundMusic = new Music("test.wav");
             backgroundMusic.Play();
 
             path = Path.GetDirectoryName(System.Reflection.Assembly.GetExecutingAssembly().Location) + "\\";
 
+            // Writing the welcome message with ASCII Art by /SaftLasso
             WriteWelcomeMessage();
+
+            // Handles the rewrite and the menus, except for the in-game one and the load menu
             while (true)
             {
                 Console.Clear();
@@ -121,8 +170,12 @@ namespace StenSaxPose
             }
         }
 
+        /// <summary>
+        /// Reads all games from file and displays them for loading.
+        /// </summary>
         static void ListLocalGames()
         {
+            // Checking if there is a save file and, if there is, opening it
             string savePath = path + "savefiles.sspl";
             if (!File.Exists(savePath))
             {
@@ -133,8 +186,21 @@ namespace StenSaxPose
 
             FileStream f = File.Open(savePath, FileMode.Open);
 
+            // Creating a list to hold all of the saved games
             List<LocalGamePlay> games = new List<LocalGamePlay>();
 
+            // Reading one game each loop, adding to the above list
+            // Byte order:
+            //
+            // Header (211)         1 byte
+            // Game ID              1 byte
+            // Name in ASCII        10 bytes
+            // Number of players    1 bytebyte
+            // Score limit          1 byte
+            // Player score         1 byte per player
+            // Player turn          1 byte
+            //
+            // Total: 25 + number of players
             while (true)
             {
                 if (f.ReadByte() == -1)
@@ -149,10 +215,10 @@ namespace StenSaxPose
                 }
                 int playerNum = f.ReadByte();
                 int scoreLimit = f.ReadByte();
-                Player[] players = new Player[playerNum];
+                LocalPlayer[] players = new LocalPlayer[playerNum];
                 for (int i = 0; i < playerNum; i++)
                 {
-                    players[i] = new Player(f.ReadByte());
+                    players[i] = new LocalPlayer(f.ReadByte());
                 }
                 int playerTurn = f.ReadByte();
                 f.Close();
@@ -160,9 +226,11 @@ namespace StenSaxPose
                 games.Add(new LocalGamePlay(playerNum, players, scoreLimit, id, name));
             }
 
+            // Initializing variables for use in displaying the above list
             int listSize = 10;
             int page = 0;
 
+            // Displaying the list
             Console.WriteLine("--- Load Local Game ---");
             for (int i = page * listSize; i < page * listSize + listSize; i++)
             {
@@ -175,28 +243,45 @@ namespace StenSaxPose
             Console.WriteLine("a. Save game options");
             Console.WriteLine("b. Back");
             Console.Write(">");
-            Console.ReadLine();
+            string s = Console.ReadLine();
+
+            // Handling input (WIP)
             
         }
 
+        /// <summary>
+        /// Function to check if a string is ASCII and also making sure it is exactly 10 characters long
+        /// </summary>
+        /// <param name="s">The input string</param>
+        /// <param name="so">The output string, 10 characters long</param>
+        /// <returns></returns>
         static bool CheckAscii(string s, out string so)
         {
-            char[] c = new char[s.Length <= 10 ? s.Length : 10];
+            // Limiting the string to 10 characters or less
+            string ss = "";
             for (int i = 0; i < (s.Length <= 10 ? s.Length : 10); i++)
             {
-                c[i] = s[0];
+                ss += s[i];
             }
 
+            // Filling out the string to 10 characters
             if (s.Length < 10)
             {
                 for (int i = s.Length; i < 10; i++)
                 {
-                    s += " ";
+                    ss += " ";
                 }
             }
 
-            so = s;
+            // Outputting the string
+            so = ss;
 
+            // Turning the string into a char array
+            char[] c = new char[10];
+            for (int i = 0; i < 10; i++)
+                c[i] = ss[i];
+
+            // Checkin ASCII Value
             foreach (char ch in c)
             {
                 if (ch >= 128)
@@ -208,8 +293,12 @@ namespace StenSaxPose
             return true;
         }
 
+        /// <summary>
+        /// Creating a local game
+        /// </summary>
         static void CreateLocalGame()
         {
+            // Setting the path to the save file
             string savePath = path + "savefiles.sspl";
             
             if (!File.Exists(savePath))
@@ -217,6 +306,8 @@ namespace StenSaxPose
                 File.Create(savePath);
             }
             
+            // Encoding data to a string
+            // Byte order can be found in the load function
             string saveData = "";
 
             saveData += (char)211;
@@ -224,6 +315,7 @@ namespace StenSaxPose
 
             FileStream f = File.Open(savePath, FileMode.Open);
 
+            // Counting the headers to calculate the next game ID
             int c = 0;
             while (true)
             {
@@ -256,16 +348,18 @@ namespace StenSaxPose
             f.Write(stream, 0, 14 + localPlayerNum);
             f.Close();
 
-            Player[] tpls = new Player[localPlayerNum];
+            // Creating local players and setting the active local game to this one
+            LocalPlayer[] tpls = new LocalPlayer[localPlayerNum];
 
             for (int i = 0; i < localPlayerNum; i++)
             {
-                tpls[i] = new Player(i);
+                tpls[i] = new LocalPlayer(i);
             }
 
             activeLocalGame = new LocalGamePlay(localPlayerNum, tpls, localPlayerScoreLimit, c, cLocalCharID);
         }
 
+        // Handling in-game logic (WIP)
         static void LocalGameFunc()
         {
             if (activeLocalGame == null)
@@ -277,15 +371,11 @@ namespace StenSaxPose
 
             while (true)
             {
-                DrawHUD();
+                
             }
         }
 
-        static void DrawHUD()
-        {
-
-        }
-
+        // Writes a welcome message with accompanying ASCII art by /SaftLasso
         static void WriteWelcomeMessage()
         {
             Console.Write("  ______                      ______                ______                 \n" +
@@ -301,6 +391,7 @@ namespace StenSaxPose
             Console.ReadKey();
         }
 
+        // Handles menu choices except those in-game and in the load menu
         static void DoCommand(string s)
         {
             if (s == "!h")
@@ -417,6 +508,7 @@ namespace StenSaxPose
             }
         }
 
+        // Writes help (WIP - low priority)
         static void WriteHelp()
         {
             switch (CurrentMenu)

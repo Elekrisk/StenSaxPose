@@ -9,14 +9,14 @@ namespace StenSaxPose
     public class LocalGamePlay
     {
         public int playerNum;
-        public Player[] players;
+        public LocalPlayer[] players;
         public int scoreLimit;
         public int localGameID;
         public int[] score;
         public int turn;
         public string Name = "          ";
 
-        public LocalGamePlay(int n, Player[] pls, int sl, int id, string name)
+        public LocalGamePlay(int n, LocalPlayer[] pls, int sl, int id, string name)
         {
             playerNum = n;
             players = pls;
