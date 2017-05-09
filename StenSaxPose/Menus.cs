@@ -91,6 +91,7 @@ namespace StenSaxPose
                         LocalGameFunc();
                         break;
                     case Menus.Music:
+                        Console.WriteLine("--- Music Controller ---");
                         Console.WriteLine("1. Start/Stop");
                         Console.WriteLine("2. Back");
                         DoCommand(Console.ReadLine());
@@ -104,6 +105,9 @@ namespace StenSaxPose
                         }
                         CurrentMenu = Menus.LocalSetup;
                         break;
+                    case Menus.LocalLoad:
+                        ListLocalGames();
+                        break;
                     default:
                         break;
                 }
@@ -115,6 +119,64 @@ namespace StenSaxPose
                     Console.ReadKey();
                 }
             }
+        }
+
+        static void ListLocalGames()
+        {
+            string savePath = path + "savefiles.sspl";
+            if (!File.Exists(savePath))
+            {
+                CurrentMenu = Menus.LocalChoose;
+                nextAdd += "No save games found. Create a new local game.";
+                return;
+            }
+
+            FileStream f = File.Open(savePath, FileMode.Open);
+
+            List<LocalGamePlay> games = new List<LocalGamePlay>();
+
+            while (true)
+            {
+                if (f.ReadByte() == -1)
+                {
+                    break;
+                }
+                int id = f.ReadByte();
+                string name = "";
+                for (int i = 0; i < 10; i++)
+                {
+                    name += (char)f.ReadByte();
+                }
+                int playerNum = f.ReadByte();
+                int scoreLimit = f.ReadByte();
+                Player[] players = new Player[playerNum];
+                for (int i = 0; i < playerNum; i++)
+                {
+                    players[i] = new Player(f.ReadByte());
+                }
+                int playerTurn = f.ReadByte();
+                f.Close();
+
+                games.Add(new LocalGamePlay(playerNum, players, scoreLimit, id, name));
+            }
+
+            int listSize = 10;
+            int page = 0;
+
+            Console.WriteLine("--- Load Local Game ---");
+            for (int i = page * listSize; i < page * listSize + listSize; i++)
+            {
+                if (i < games.Count)
+                {
+                    Console.WriteLine(games[i].localGameID + ". " + games[i].Name + " - " + games[i].playerNum + " players - score limit " + games[i].scoreLimit);
+                }
+            }
+
+            Console.WriteLine("a. Save game options");
+            Console.WriteLine("b. Back");
+            Console.Write(">");
+            Console.ReadLine();
+            
         }
 
         static bool CheckAscii(string s, out string so)
@@ -148,15 +210,13 @@ namespace StenSaxPose
 
         static void CreateLocalGame()
         {
-            
-            
-            if (!File.Exists(path + "savefiles.sspl"))
-            {
-                File.Create(path + "savefiles.sspl");
-            }
-
             string savePath = path + "savefiles.sspl";
-
+            
+            if (!File.Exists(savePath))
+            {
+                File.Create(savePath);
+            }
+            
             string saveData = "";
 
             saveData += (char)211;
@@ -184,6 +244,8 @@ namespace StenSaxPose
 
             saveData += (char)localPlayerNum;
 
+            saveData += (char)localPlayerScoreLimit;
+
             for (int i = 0; i < localPlayerNum; i++)
             {
                 saveData += (char)0;
@@ -201,7 +263,7 @@ namespace StenSaxPose
                 tpls[i] = new Player(i);
             }
 
-            activeLocalGame = new LocalGamePlay(localPlayerNum, tpls, localPlayerScoreLimit, c);
+            activeLocalGame = new LocalGamePlay(localPlayerNum, tpls, localPlayerScoreLimit, c, cLocalCharID);
         }
 
         static void LocalGameFunc()
@@ -213,7 +275,10 @@ namespace StenSaxPose
                 return;
             }
 
-            DrawHUD();
+            while (true)
+            {
+                DrawHUD();
+            }
         }
 
         static void DrawHUD()
