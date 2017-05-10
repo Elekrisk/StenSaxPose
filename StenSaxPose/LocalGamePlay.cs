@@ -8,14 +8,15 @@ namespace StenSaxPose
 {
     public class LocalGamePlay
     {
-        int playerNum;
-        Player[] players;
-        int scoreLimit;
+        public int playerNum;
+        public LocalPlayer[] players;
+        public int scoreLimit;
         public int localGameID;
-        int[] score;
-        int turn;
+        public int[] score;
+        public int turn;
+        public string Name = "          ";
 
-        public LocalGamePlay(int n, Player[] pls, int sl, int id)
+        public LocalGamePlay(int n, LocalPlayer[] pls, int sl, int id, string name)
         {
             playerNum = n;
             players = pls;
@@ -23,6 +24,7 @@ namespace StenSaxPose
             localGameID = id;
             score = new int[playerNum];
             turn = 0;
+            Name = name;
         }
     }
 }

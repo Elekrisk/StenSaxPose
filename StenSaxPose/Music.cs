@@ -16,7 +16,7 @@ namespace StenSaxPose
 
         public Music(string FileName)
         {
-            Sound = new SoundPlayer(Directory.GetCurrentDirectory() + "\\sounds\\" + FileName);
+            Sound = new SoundPlayer(Directory.GetCurrentDirectory() + "\\..\\..\\Resources\\" + FileName);
             isPlaying = false;
         }
 
