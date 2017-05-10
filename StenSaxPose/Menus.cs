@@ -25,7 +25,7 @@ namespace StenSaxPose
         static string path;
         static int localGameID;
         static Menus CurrentMenu = Menus.MainMenu;
-
+         
         static string nextAdd = "";
         static int localPlayerNum = 2;
         static int localPlayerScoreLimit = 3;
