@@ -7,6 +7,11 @@ using System.IO;
 
 namespace StenSaxPose
 {
+    public static class Constants
+    {
+        public static int Header = 127;
+    }
+
     /// <summary>
     /// The class for a locak player, game specific
     /// </summary>
@@ -21,6 +26,8 @@ namespace StenSaxPose
         /// </summary>
         public int Score;
 
+        public Moves LastMove;
+
         /// <summary>
         /// Creates a new local player with the specified ID
         /// </summary>
@@ -30,6 +37,8 @@ namespace StenSaxPose
             ID = id;
         }
     }
+
+    public enum Moves { Null, Rock, Paper, Scissors }
 
     /// <summary>
     /// Menu enum
@@ -199,8 +208,9 @@ namespace StenSaxPose
             // Score limit          1 byte
             // Player score         1 byte per player
             // Player turn          1 byte
-            //
-            // Total: 25 + number of players
+            // Player last move     1 byte per player
+            // 
+            // Total: 25 + number of players * 2
             while (true)
             {
                 if (f.ReadByte() == -1)
@@ -221,6 +231,11 @@ namespace StenSaxPose
                     players[i] = new LocalPlayer(f.ReadByte());
                 }
                 int playerTurn = f.ReadByte();
+                Moves[] lastMoves = new Moves[playerNum];
+                for (int i = 0; i < playerNum; i++)
+                {
+                    lastMoves[i] = (Moves)f.ReadByte();
+                }
 
                 games.Add(new LocalGamePlay(playerNum, players, scoreLimit, id, name));
             }
@@ -336,7 +351,7 @@ namespace StenSaxPose
             // Checkin ASCII Value
             foreach (char ch in c)
             {
-                if (ch >= 128)
+                if (ch < 127)
                 {
                     return false;
                 }
@@ -362,7 +377,7 @@ namespace StenSaxPose
             // Byte order can be found in the load function
             string saveData = "";
 
-            saveData += (char)211;
+            saveData += (char)Constants.Header;
 
 
             FileStream f = File.Open(savePath, FileMode.Open);
@@ -372,7 +387,7 @@ namespace StenSaxPose
             while (true)
             {
                 int b = f.ReadByte();
-                if (b == 211)
+                if (b == Constants.Header)
                 {
                     c++;
                 }
@@ -396,6 +411,11 @@ namespace StenSaxPose
             }
             Random r = new Random();
             saveData += (char)r.Next(0, localPlayerNum);
+
+            for (int i = 0; i < localPlayerNum; i++)
+            {
+                saveData += (char)Moves.Null;
+            }
             byte[] stream = Encoding.ASCII.GetBytes(saveData);
             f.Write(stream, 0, 14 + localPlayerNum);
             f.Close();
@@ -411,6 +431,57 @@ namespace StenSaxPose
             activeLocalGame = new LocalGamePlay(localPlayerNum, tpls, localPlayerScoreLimit, c, cLocalCharID);
         }
 
+        static void SaveGame(LocalGamePlay g)
+        {
+            string savePath = path + "savefiles.sspl";
+
+            if (!File.Exists(savePath))
+            {
+                File.Create(savePath).Close();
+            }
+
+            string file = File.ReadAllText(savePath);
+
+            FileStream f = File.Open(savePath, FileMode.Open);
+            FileStream t = File.Open(savePath + ".tmp", FileMode.Create);
+
+            while (true)
+            {
+                int x;
+                int h = f.ReadByte();
+                if (h == Constants.Header)
+                {
+                    string saveData = "";
+                    int id = f.ReadByte();
+                    bool v = false;
+                    if (id == g.localGameID)
+                        v = true;
+                    saveData += (char)id;
+                    for (int i = 0; i < 10; i++)
+                    {
+                        saveData += (char)f.ReadByte();
+                    }
+                    int np = f.ReadByte();
+                    saveData += (char)np;
+                    saveData += (char)f.ReadByte();
+                    for (int i = 0; i < np; i++)
+                    {
+                        x = f.ReadByte();
+                        saveData += v? g.score[i] : x;
+                    }
+                    x = f.ReadByte();
+                    saveData += v ? g.turn : x;
+                    for (int i = 0; i < np; i++)
+                    {
+                        x = f.ReadByte();
+                        saveData += v ? (char)g.players[i].LastMove : (char)x;
+                    }
+                    byte[] bs = Encoding.ASCII.GetBytes(saveData);
+                    t.Write(bs, 0, 0);
+                }
+            }
+        }
+
         // Handling in-game logic (WIP)
         static void LocalGameFunc()
         {
@@ -421,7 +492,9 @@ namespace StenSaxPose
                 return;
             }
 
-            while (true)
+            bool running = true;
+
+            while (running)
             {
                 Console.WriteLine("----- LOCAL GAME " + activeLocalGame.Name + " " + activeLocalGame.playerNum + " PLAYERS -----");
                 Console.WriteLine("PLAYER " + activeLocalGame.turn + 1 + "'S TURN");
@@ -430,6 +503,33 @@ namespace StenSaxPose
                 Console.WriteLine("3. Play -PAPER-");
                 Console.WriteLine("4. Play -SCICCORS-");
                 Console.WriteLine("5. Save and Quit");
+                Console.Write(">");
+                string s = Console.ReadLine();
+                switch (s)
+                {
+                    case "1":
+                        foreach (LocalPlayer p in activeLocalGame.players)
+                        {
+                            Console.WriteLine("Player " + p.ID + " - " + activeLocalGame.score[p.ID]);
+                        }
+                        Console.WriteLine("Press any button to return...");
+                        Console.ReadKey();
+                        break;
+                    case "2":
+                        break;
+                    case "3":
+                        break;
+                    case "4":
+                        break;
+                    case "5":
+                        SaveGame(activeLocalGame);
+                        activeLocalGame = null;
+                        CurrentMenu = Menus.MainMenu;
+                        running = false;
+                        break;
+                    default:
+                        break;
+                }
             }
         }
 
