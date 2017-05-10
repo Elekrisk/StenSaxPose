@@ -84,6 +84,9 @@ namespace StenSaxPose
         /// <param name="args">I have no idea what this is</param>
         static void Main(string[] args)
         {
+
+            Console.SetWindowSize((Console.LargestWindowWidth / 2), (Console.LargestWindowHeight / 2));
+
             // Assigning variables
             backgroundMusic = new Music("test.wav");
             backgroundMusic.Play();
