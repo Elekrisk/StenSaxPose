@@ -212,13 +212,28 @@ namespace StenSaxPose
             // Player turn          1 byte
             // Player last move     1 byte per player
             // 
-            // Total: 25 + number of players * 2
+            // Total: 15 + number of players * 2
             while (true)
             {
-                if (f.ReadByte() == -1)
+                bool l = false;
+                while (true)
+                {
+                    int z = f.ReadByte();
+                    if (z == -1)
+                    {
+                        l = true;
+                        break;
+                    }
+                    else if (z == Constants.Header)
+                    {
+                        break;
+                    }
+                }
+                if (l)
                 {
                     break;
                 }
+                
                 int id = f.ReadByte();
                 string name = "";
                 for (int i = 0; i < 10; i++)
@@ -424,7 +439,7 @@ namespace StenSaxPose
                 saveData += (char)Moves.Null;
             }
             byte[] stream = Encoding.ASCII.GetBytes(saveData);
-            f.Write(stream, 0, 14 + localPlayerNum);
+            f.Write(stream, 0, stream.Length);
             f.Close();
 
             // Creating local players and setting the active local game to this one
@@ -484,7 +499,7 @@ namespace StenSaxPose
                         saveData += v ? (char)g.players[i].LastMove : (char)x;
                     }
                     byte[] bs = Encoding.ASCII.GetBytes(saveData);
-                    t.Write(bs, 0, 0);
+                    t.Write(bs, 0, bs.Length);
                 }
             }
         }
