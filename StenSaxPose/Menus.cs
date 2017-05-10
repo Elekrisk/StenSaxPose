@@ -85,17 +85,8 @@ namespace StenSaxPose
         /// The background music. 10/10
         /// </summary>
         static Music backgroundMusic;
-
-        /// <summary>
-        /// The ASCII header
-        /// </summary>
-        static string HEADER;
-
-        /// <summary>
-        /// The ASCII seperator
-        /// </summary>
-        static string SEPERATOR;
-
+        
+        
         /// <summary>
         /// Entry point of the program
         /// </summary>
@@ -120,7 +111,6 @@ namespace StenSaxPose
                 switch (CurrentMenu)
                 {
                     case Menus.MainMenu:
-                        WriteHeader();
                         Console.WriteLine("--- Main Menu ---");
                         Console.WriteLine("1. Play Local Game");
                         Console.WriteLine("2. Play Online Game");
@@ -130,7 +120,6 @@ namespace StenSaxPose
                         DoCommand(Console.ReadLine());
                         break;
                     case Menus.LocalSetup:
-                        WriteHeader();
                         Console.WriteLine("--- New Local Game ---");
                         Console.WriteLine("1. Number of players: " + localPlayerNum);
                         Console.WriteLine("2. Score limit: " + localPlayerScoreLimit);
@@ -141,19 +130,16 @@ namespace StenSaxPose
                         DoCommand(Console.ReadLine());
                         break;
                     case Menus.LocalPlayerNum:
-                        WriteHeader();
                         Console.Write("Number of players: ");
                         DoCommand(Console.ReadLine());
                         CurrentMenu = Menus.LocalSetup;
                         break;
                     case Menus.LocalPlayerScore:
-                        WriteHeader();
                         Console.Write("Score Limit: ");
                         DoCommand(Console.ReadLine());
                         CurrentMenu = Menus.LocalSetup;
                         break;
                     case Menus.LocalChoose:
-                        WriteHeader();
                         Console.WriteLine("--- Local Game ---");
                         Console.WriteLine("1. Create new local game");
                         Console.WriteLine("2. Load a local game");
@@ -162,18 +148,15 @@ namespace StenSaxPose
                         DoCommand(Console.ReadLine());
                         break;
                     case Menus.InLocalGame:
-                        WriteHeader();
                         LocalGameFunc();
                         break;
                     case Menus.Music:
-                        WriteHeader();
                         Console.WriteLine("--- Music Controller ---");
                         Console.WriteLine("1. Start/Stop");
                         Console.WriteLine("2. Back");
                         DoCommand(Console.ReadLine());
                         break;
                     case Menus.LocalGameName:
-                        WriteHeader();
                         Console.Write("ASCII Name (10 char max): ");
                         string s = Console.ReadLine();
                         if (CheckAscii(s, out s))
@@ -183,7 +166,6 @@ namespace StenSaxPose
                         CurrentMenu = Menus.LocalSetup;
                         break;
                     case Menus.LocalLoad:
-                        WriteHeader();
                         ListLocalGames();
                         break;
                     default:
@@ -313,6 +295,10 @@ namespace StenSaxPose
                                 break;
                         }
                         break;
+                    case "b":
+                        CurrentMenu = Menus.LocalChoose;
+                        t = false;
+                        break;
                     default:
                         int h;
                         if (int.TryParse(s, out h))
@@ -352,7 +338,7 @@ namespace StenSaxPose
             }
 
             // Filling out the string to 10 characters
-            if (s.Length < 10)
+            if (ss.Length < 10)
             {
                 for (int i = s.Length; i < 10; i++)
                 {
@@ -371,8 +357,9 @@ namespace StenSaxPose
             // Checkin ASCII Value
             foreach (char ch in c)
             {
-                if (ch < 127)
+                if ((int)ch > 127)
                 {
+                    nextAdd += (int)ch;
                     return false;
                 }
             }
@@ -516,7 +503,6 @@ namespace StenSaxPose
 
             while (running)
             {
-                //WriteHeader();
                 Console.WriteLine("----- LOCAL GAME " + activeLocalGame.Name + " " + activeLocalGame.playerNum + " PLAYERS -----");
                 Console.WriteLine("PLAYER " + activeLocalGame.turn + 1 + "'S TURN");
                 Console.WriteLine("1. See scores");
@@ -557,16 +543,13 @@ namespace StenSaxPose
         // Writes a welcome message with accompanying ASCII art by /SaftLasso
         static void WriteWelcomeMessage()
         {
-
-            CalculateHeader();
-
-            WriteHeader();
-
-            //Console.Write(SEPERATOR);
-            //Console.Write(HEADER);
-            //Console.WriteLine(SEPERATOR);
-
-
+            Console.Write("  ______                      ______                ______                 \n" +
+                          " / _____) _                  / _____)              (_____ \\                \n" +
+                          "( (____ _| |_ _____ ____    ( (____  _____ _   _    _____) )__   ___ _____ \n" +
+                          " \\____ (_   _) ___ |  _ \\    \\____ \\(____ ( \\ / )  |  ____/ _ \\ /___) ___ |\n" +
+                          " _____) )| |_| ____| | | |   _____) ) ___ |) X (   | |   | |_| |___ | ____|\n" +
+                          "(______/  \\__)_____)_| |_|  (______/\\_____(_/ \\_)  |_|    \\___/(___/|_____)\n" +
+                          "===========================================================================\n");
 
             Console.WriteLine("If you need help with anything, just write '!h' for contextual help!");
             Console.WriteLine("Press any button to continue.");
@@ -702,39 +685,5 @@ namespace StenSaxPose
                     break;
             }
         }
-
-        static void WriteHeader()
-        {
-            Console.Write(SEPERATOR);
-            Console.Write(HEADER);
-            Console.WriteLine(SEPERATOR);
-        }
-
-        static void CalculateHeader()
-        {
-            for (int i = 0; i < Console.WindowWidth; i++)
-            {
-                SEPERATOR += "=";
-            }
-
-            int a = (Console.WindowWidth - 75) / 2;
-
-            string space = "";
-
-            for (int i = 0; i < a; i++)
-            {
-                space += " ";
-            }
-
-            string b = "  ______                      ______                ______                 \n";
-            string c = " / _____) _                  / _____)              (_____ \\               \n";
-            string d = "( (____ _| |_ _____ ____    ( (____  _____ _   _    _____) )__   ___ _____ \n";
-            string e = " \\____ (_   _) ___ |  _ \\    \\____ \\(____ ( \\ / )  |  ____/ _ \\ /___) ___ |\n";
-            string f = " _____) )| |_| ____| | | |   _____) ) ___ |) X (   | |   | |_| |___ | ____|\n";
-            string g = "(______/  \\__)_____)_| |_|  (______/\\_____(_/ \\_)  |_|    \\___/(___/|_____)\n";
-
-            HEADER = space + b + space + c + space + d + space + e + space + f + space + g;
-        }
-
     }
 }
