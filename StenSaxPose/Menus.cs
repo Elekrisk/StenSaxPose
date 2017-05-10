@@ -96,6 +96,8 @@ namespace StenSaxPose
         /// </summary>
         static string SEPERATOR;
 
+        static int MENUSTART;
+
         /// <summary>
         /// Entry point of the program
         /// </summary>
@@ -121,11 +123,12 @@ namespace StenSaxPose
                 {
                     case Menus.MainMenu:
                         WriteHeader();
-                        Console.WriteLine("--- Main Menu ---");
-                        Console.WriteLine("1. Play Local Game");
-                        Console.WriteLine("2. Play Online Game");
-                        Console.WriteLine("3. Music Controller");
-                        Console.WriteLine("4. Quit");
+                        WriteCentre("--- Main Menu ---");
+                        //Console.WriteLine("--- Main Menu ---");
+                        WriteMenu("1. Play Local Game");
+                        WriteMenu("2. Play Online Game");
+                        WriteMenu("3. Music Controller");
+                        WriteMenu("4. Quit");
                         Console.Write(">");
                         DoCommand(Console.ReadLine());
                         break;
@@ -714,10 +717,10 @@ namespace StenSaxPose
         {
             for (int i = 0; i < Console.WindowWidth; i++)
             {
-                SEPERATOR += "=";
+                SEPERATOR += "#";
             }
 
-            int a = (Console.WindowWidth - 75) / 2;
+            int a = (Console.WindowWidth - 75) / 2; // 75 = string b length
 
             string space = "";
 
@@ -734,6 +737,22 @@ namespace StenSaxPose
             string g = "(______/  \\__)_____)_| |_|  (______/\\_____(_/ \\_)  |_|    \\___/(___/|_____)\n";
 
             HEADER = space + b + space + c + space + d + space + e + space + f + space + g;
+        }
+
+        static void WriteCentre(string str)
+        {
+
+            MENUSTART = (Console.WindowWidth - str.Length) / 2;
+            Console.SetCursorPosition(MENUSTART, Console.CursorTop);
+            Console.WriteLine(str);
+
+            //Console.WriteLine(String.Format("{0," + ((Console.WindowWidth / 2) + (str.Length / 2)) + "}"), str);
+        }
+
+        static void WriteMenu(string str)
+        {
+            Console.SetCursorPosition(MENUSTART, Console.CursorTop);
+            Console.WriteLine(str);
         }
 
     }
