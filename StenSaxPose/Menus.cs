@@ -85,7 +85,11 @@ namespace StenSaxPose
         /// The background music. 10/10
         /// </summary>
         static Music backgroundMusic;
-        
+
+        /// <summary>
+        /// The ASCII header
+        /// </summary>
+        static string HEADER;
         
         /// <summary>
         /// The ASCII seperator
