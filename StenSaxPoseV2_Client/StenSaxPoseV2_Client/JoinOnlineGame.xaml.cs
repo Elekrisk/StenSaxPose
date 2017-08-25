@@ -24,12 +24,27 @@ namespace StenSaxPoseV2_Client
         {
             InitializeComponent();
 
+            serverListBox.Items.Add("Server service is currently not implemented.");
+        }
+
+        private void JoinBtn_Click(object sender, RoutedEventArgs e)
+        {
 
         }
 
-        void _refresh()
+        private void BackBtn_Click(object sender, RoutedEventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+        private void DirectBtn_Click(object sender, RoutedEventArgs e)
         {
 
+        }
+
+        private void ReloadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            serverListBox.Items.Add("Refreshed.");
         }
     }
 }

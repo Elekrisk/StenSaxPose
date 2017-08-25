@@ -18,10 +18,11 @@
             <RowDefinition  Height="50"/>
         </Grid.RowDefinitions>
 
-        <Button Grid.Row="0">Reload</Button>
+        <Button Grid.Row="0" Name="reloadBtn" Click="ReloadBtn_Click">Reload</Button>
         <ListBox Grid.Row="1" Name="serverListBox"/>
         <Grid Grid.Row="2">
             <Grid.ColumnDefinitions>
+                <ColumnDefinition />
                 <ColumnDefinition />
                 <ColumnDefinition />
             </Grid.ColumnDefinitions>
@@ -29,8 +30,9 @@
                 <RowDefinition />
             </Grid.RowDefinitions>
 
-            <Button Grid.Column="0">Join</Button>
-            <Button Grid.Column="1">Back</Button>
+            <Button Grid.Column="0" Name="joinBtn" Click="JoinBtn_Click">Join</Button>
+            <Button Grid.Column="1" Name="backBtn" Click="BackBtn_Click">Back</Button>
+            <Button Grid.Column="2" Name="directBtn" Click="DirectBtn_Click">Direct Connect</Button>
         </Grid>
     </Grid>
 </Page>

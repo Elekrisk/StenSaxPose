@@ -5,5 +5,5 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:StenSaxPoseV2_Client"
         mc:Ignorable="d"
-        Title="Sten Sax Pose - Client" Height="375" Width="500" Source="MainMenu.xaml" ResizeMode="CanMinimize">
+        Title="Sten Sax Pose - Client" Height="375" Width="500" Source="MainMenu.xaml" ResizeMode="CanResize">
 </NavigationWindow>

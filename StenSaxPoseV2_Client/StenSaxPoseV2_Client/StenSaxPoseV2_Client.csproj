@@ -54,13 +54,38 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CreateLocalGame.xaml.cs">
+      <DependentUpon>CreateLocalGame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="FileHandler.cs" />
     <Compile Include="JoinOnlineGame.xaml.cs">
       <DependentUpon>JoinOnlineGame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LoadLocalGame.xaml.cs">
+      <DependentUpon>LoadLocalGame.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="LocalGamePlay.xaml.cs">
+      <DependentUpon>LocalGamePlay.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="NamePlayers.xaml.cs">
+      <DependentUpon>NamePlayers.xaml</DependentUpon>
     </Compile>
     <Compile Include="SelectLocalGame.xaml.cs">
       <DependentUpon>SelectLocalGame.xaml</DependentUpon>
     </Compile>
+    <Page Include="CreateLocalGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="JoinOnlineGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LoadLocalGame.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="LocalGamePlay.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -83,6 +108,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="NamePlayers.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="SelectLocalGame.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -113,6 +142,15 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\paper.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\rock.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Images\scissors.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

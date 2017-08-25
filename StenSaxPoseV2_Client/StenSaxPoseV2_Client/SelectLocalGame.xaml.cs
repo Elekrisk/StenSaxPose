@@ -27,12 +27,14 @@ namespace StenSaxPoseV2_Client
 
         private void CreateBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            CreateLocalGame cg = new CreateLocalGame();
+            NavigationService.Navigate(cg);
         }
 
         private void LoadBtn_Click(object sender, RoutedEventArgs e)
         {
-
+            LoadLocalGame lg = new LoadLocalGame();
+            NavigationService.Navigate(lg);
         }
 
         private void BackBtn_Click(object sender, RoutedEventArgs e)

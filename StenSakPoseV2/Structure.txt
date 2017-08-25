@@ -1,0 +1,27 @@
+---OLD---
+--StenSaxPose Local GameSave Structure--
+-Legend-
+x:		Signifies what byte this is.
+    x:		Signifies a byte number in a repeated list.
+23'		A number literal - max 127, where size is one byte..
+"asdf"		A string literal, ASCII-encoded. One char = one byte.
+int		A integer variable, one byte.
+string		A string variable, size = length.
+
+-Structure-
+1:	'127'	//used to mark the beginning of a new game
+2:	int	//the id of the game, max 126
+3-12:	string	//always 10 chars long, the custom name of the game
+13:	int	//number of players, max 126. list below repeated this amount.
+    1:	int	//player id
+    2:  int	//name length, max 126, used henceforth as x
+    3-x+3:	string	//player name
+    x+4:	int	//points, max 126
+    x+5:	int	//the saved move, 0-2
+---NEW---
+The new structure is just a pure text file.
+A new game is signified by an unindented line.
+All indented lines are indented with one space.
+<id>|<name>|<pointCap>|<playerNum>:
+ <id>|<name>|<points>|<move>
+ <id>|<name>|<points>|<move>
