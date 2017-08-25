@@ -158,34 +158,35 @@ namespace StenSaxPoseV2_Client
                 }
                 else
                 {
+                    bool ppr = doneMoves.Contains(((int)Moves.Paper).ToString());
+                    bool rck = doneMoves.Contains(((int)Moves.Rock).ToString());
+                    bool scs = doneMoves.Contains(((int)Moves.Scissors).ToString());
+
                     foreach (LocalPlayer p in game.players)
                     {
-                        if (p.move != Moves.Idle)
+                        if (ppr && rck)
                         {
-                            for (int i = 0; i < game.playerNum; i++)
+                            if (p.move == Moves.Paper)
                             {
-                                if (i != p.id)
-                                {
-                                    switch (p.move)
-                                    {
-                                        case Moves.Rock:
-                                            foreach (LocalPlayer lp in game.players)
-                                            {
-                                                if (lp.move == Moves.Scissors)
-                                                {
-
-                                                }
-                                            }
-                                            break;
-                                        case Moves.Paper:
-                                            break;
-                                        case Moves.Scissors:
-                                            break;
-                                        default:
-                                            break;
-                                    }
-                                }
+                                p.points++;
                             }
+                            p.move = Moves.Null;
+                        }
+                        else if (rck && scs)
+                        {
+                            if (p.move == Moves.Rock)
+                            {
+                                p.points++;
+                            }
+                            p.move = Moves.Null;
+                        }
+                        else if (ppr && scs)
+                        {
+                            if (p.move == Moves.Scissors)
+                            {
+                                p.points++;
+                            }
+                            p.move = Moves.Null;    
                         }
                     }
                 }

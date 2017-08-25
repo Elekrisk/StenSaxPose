@@ -212,6 +212,8 @@ namespace StenSaxPoseV2_Client
         public int points;
         public Moves move;
 
+        public int win = -1;
+
         static public LocalPlayer Null = new LocalPlayer(-1, "null");
 
         public LocalPlayer(int ID, string Name)
